@@ -15,11 +15,11 @@ experimental_fgd
 
 # デモサイトについて
 デモサイトを次の場所に用意しております。
--本リポジトリ
+- 本リポジトリ
 http://gsi-cyberjapan.github.io/experimental_fgd/
--本リポジトリ（Canvas）
+- 本リポジトリ（Canvas）
 http://gsi-cyberjapan.github.io/experimental_fgd/canvas.html
--地理院地図
+- 地理院地図
 http://maps.gsi.go.jp/?ll=35.672993,139.769182&z=18&base=blank&ls=experimental_fgd&disp=1&cd=f4&vs=c1j0l0u0&d=l
 
 右上のコントロールから、表示する地図を切り替えることができます。
