@@ -2,7 +2,7 @@ experimental_fgd
 ================
 国土地理院ベクトルタイル提供実験（基盤地図情報（基本項目））
 # 基盤地図情報の GeoJSON タイル
-基盤地図情報（基本項目）の全項目をズームレベル 18 の GeoJSON タイルに変換したものを提供実験
+基盤地図情報（基本項目）の点及び線をズームレベル 18 の GeoJSON タイルに変換したものを提供実験
 いたします。データの仕様は次のとおりです。
 
 ## 基盤地図情報（基本項目）
@@ -15,7 +15,12 @@ experimental_fgd
 
 # デモサイトについて
 デモサイトを次の場所に用意しております。
+-本リポジトリ
 http://gsi-cyberjapan.github.io/experimental_fgd/
+-本リポジトリ（Canvas）
+http://gsi-cyberjapan.github.io/experimental_fgd/canvas.html
+-地理院地図
+http://maps.gsi.go.jp/?ll=35.672993,139.769182&z=18&base=blank&ls=experimental_fgd&disp=1&cd=f4&vs=c1j0l0u0&d=l
 
 右上のコントロールから、表示する地図を切り替えることができます。
 
@@ -29,3 +34,4 @@ http://gsi-cyberjapan.github.io/experimental_fgd/
 
 # 履歴
 2014-11-01 基盤地図情報（基本項目）の提供実験を開始（茨城県つくば市周辺、新潟県新潟市周辺）
+2015-10-29 基盤地図情報（基本項目）の点及び線について、全国の提供実験を開始
