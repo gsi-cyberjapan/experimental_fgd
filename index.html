@@ -3,193 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>地理院ベクトルタイル提供実験（基盤地図情報（基本項目））</title>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
-<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-<script src="./leaflet-hash.js"></script>
+<title>地理院ベクトルタイル提供実験（fgd）</title>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="./TileLayer.GeoJSON.js"></script>
-<script src="./corslite.js"></script>
+<script src="./leaflet-hash.js"></script>
 <style>
-body {padding: 0; margin: 0}
+
+body {padding: 0; margin: 0;}
 html, body, #mapdiv {height: 100%; width: 100%;}
 .leaflet-container {background: #fff;}
-.data {
-  stroke-width: 2px;
-  stroke-opacity: 0.8;
-  fill-opacity: 0.3;
-  stroke: #ffaa00;
-}
-.admarea {
-}
-.admbdry {
-  stroke: #f00;
-  stroke-width: 3px;
-}
-.admpt {
-}
-.blda {
-  stroke: none;
-  fill: #ffe6be;
-  //fill-opacity: 1;
-}
-.bldl {
-  stroke: #ff7d23;
-}
-.bldl_kenro {
-  stroke-width: 3px;
-}
-.bldl_futsu {
-  stroke-width: 1px;
-}
-.cntr {
-  stroke: #cfa10a;
-  stroke-width: 1px;
-}
-.commbdry {
-  stroke: #f00;
-  stroke-width: 1px;
-  stroke-dasharray: 10, 10;
-}
-.commpt {
-}
-.cstline {
-  stroke: #46b3ff;
-}
-.elevpt {
-  stroke: #888;
-  fill: #f00;
-}
-.gcp {
-  stroke: #f00;
-  fill: #f00;
-}
-.railcl {
-  stroke: #640000;
-}
-.railcl_tunnel {
-  stroke-dasharray: 5, 5;
-}
-.rdcompt {
-  stroke: #646464;
-  stroke-width: 1px;
-}
-.rdedg {
-  stroke: #646464;
-}
-.sbapt {
-}
-.sbbdry {
-  stroke: #f00;
-}
-.wa {
-  stroke: none;
-  fill: #bed2ff;
-  //fill-opacity: 1;
-}
-.wl {
-  stroke: #46b3ff;
-  stroke-width: 1px;
-}
-.wl_ichijo {
-  stroke-width: 2px;
-}
-.wstra {
-}
-.wstrl {
-  stroke: #46b3ff;
-}
-.hidden {
+.gsi-div-icon {
+	background: none;
+	white-space: nowrap;
+	border:none;
 }
 </style>
 </head>
 <body>
-<div id="mapdiv"></div>
+<div id="mapdiv">
 <script>
+
+//fgd
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/style.js', false);
+xhr.send(null);
+var stylejs = eval( "(" + xhr.responseText + ")" );
+
+var fgdlayer = new L.TileLayer.GeoJSON(
+'http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson',
+stylejs.options,stylejs.geojsonOptions);
+
+
 var std = L.tileLayer(
-  'http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-    maxZoom: 18, maxNativeZoom: 18, attribution: '地理院タイル（標準地図）'});
+'http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+{attribution: "地理院タイル（標準地図）", 
+maxNativeZoom: 18, maxZoom: 18, opacity:1});
 var ort = L.tileLayer(
-  'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
-    maxZoom: 24, maxNativeZoom: 17, attribution: '地理院タイル（オルソ画像）'});
-var fgd = new L.TileLayer.GeoJSON(
-  'http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson', {
-    minZoom: 18, maxNativeZoom: 18, maxZoom: 24, 
-    attribution: '基盤地図情報（実験）'
-  }, {
-    filter: function(feat) {
-      return !(feat.properties.class == 'AdmArea' ||
-        feat.properties.class == 'WStrA' ||
-        feat.properties.class == 'SBAPt' ||
-        feat.properties.class == 'SBBdry' ||
-        (feat.properties.class == 'AdmBdry' && feat.properties.orgGILvl == 2500)
-      );
-    },
-    pointToLayer: function(feat, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 2
-      });
-    },
-    style: function(feat) {
-      var className = 'data ' + feat.properties.class.toLowerCase() +
-        (feat.properties.type == '一条河川' ? ' wl_ichijo' : '') +
-        (feat.properties.type == 'トンネル内の鉄道' ? ' railcl_tunnel' : '') +
-        (feat.properties.vis == '非表示' ? ' hidden' : '');
-      if(feat.properties.class == 'BldL') {
-        className += 
-          (feat.properties.type == '堅ろう建物' ? ' bldl_kenro' : '') +
-          (feat.properties.type == '普通建物' ? ' bldl_futsu' : '') +
-          (feat.properties.type == '堅ろう無壁舎' ? ' bldl_futsu' : '');
-      }
-      feat.className = className;
-      return {
-        className: className
-      };
-    },
-    onEachFeature: function(feat, layer) {
-      var popupString = '<table class="popup" border="1">';
-      for (var k in feat.properties) {
-        var v = feat.properties[k];
-        if(k == 'height' || k == 'alti') {v = v.toFixed(2);}
-        popupString += '<tr><td>' + k + '</td><td>' + v + '</td></tr>';
-      }
-      popupString += '<tr><td>className</td><td>' +
-        feat.className + '</td></tr>';
-      popupString += '<tr><td>geometry</td><td>' +
-        feat.geometry.type + '</td></tr>';
-      popupString += '</table>';
-      layer.bindPopup(popupString);
-    }
-  });
-var map = L.map('mapdiv', {
-  center: [37.90861, 139.04185], zoom: 18,
-  layers: [ort, fgd]});
+'http://cyberjapandata.gsi.go.jp/xyz/djbmo/{z}/{x}/{y}.jpg',
+{attribution: "地理院タイル（オルソ）", 
+maxNativeZoom: 17, maxZoom: 18, opacity:0.7});
 
-var hash = L.hash(map);
-L.control.layers({}, {
-  '地理院タイル（標準地図）': std,
-  '地理院タイル（オルソ画像）': ort,
-  '基盤地図情報（実験）': fgd
-}).addTo(map);
+var blank = L.tileLayer(
+'http://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png',
+{attribution: "地理院タイル（白地図）", 
+maxNativeZoom: 14, maxZoom: 17, opacity:1});
 
-corslite('./area.geojson', function(err, resp) {
-  area = L.geoJson(JSON.parse(resp.responseText), {maxZoom: 15});
-  area_added = false;
-  area_toggle = function(e) {
-    if(map.getZoom() <= 16) {
-      if(!area_added) {
-        map.addLayer(area);
-        area_added = true;
-      }
-    } else {
-      if(area_added) {
-        map.removeLayer(area);
-        area_added = false;
-      }
-    }
-  };
-  map.on('zoomend', area_toggle);
-  area_toggle();
-}, false);
+
+var GSI = {
+	GLOBALS : {}
+};
+
+GSI.GLOBALS.map = L.map('mapdiv', {
+  center: [35.705698,139.957527], zoom: 18,minZoom: 2, maxZoom: 18,
+  layers: [fgdlayer,blank]});
+
+L.control.scale({imperial: false}).addTo(GSI.GLOBALS.map);
+
+//var baseLayers = {"地理院タイル（標準地図）": std,"地理院タイル（オルソ）": ort,"地理院タイル（白地図）": blank};
+var baseLayers ={};
+var overlays = {"地理院タイル（標準地図）": std,"地理院タイル（オルソ）": ort,"地理院タイル（白地図）": blank,'fgd': fgdlayer};
+
+L.control.layers(baseLayers, overlays,{position:'topright',collapsed:false}).addTo(GSI.GLOBALS.map);
+var hash = L.hash(GSI.GLOBALS.map);
 </script>
 </body>
 </html>
