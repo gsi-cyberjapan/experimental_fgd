@@ -316,9 +316,11 @@ function fgd_style(feature){
        case 'SBBdry':
         return {setLineDash:[5,5],strokeStyle:"#fbb",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
        case 'CommBdry':
-        return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
+        if(feature.properties['vis']=="非表示"){return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:0,globalAlpha:0,lineCap:"butt"};}else{
+        return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};}
        case 'AdmBdry':
-        return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:4,globalAlpha:0.5,lineCap:"butt"};
+        if(feature.properties['vis']=="非表示"){return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:0,globalAlpha:0,lineCap:"butt"};}else{
+        return {setLineDash:[10,10],strokeStyle:"#f77",lineWidth:4,globalAlpha:0.5,lineCap:"butt"};}
      }
 }
 
