@@ -26,7 +26,6 @@ http://gsi-cyberjapan.github.io/experimental_fgd/canvas.html
 - 地理院地図
 http://maps.gsi.go.jp/?ll=35.672993,139.769182&z=18&base=blank&ls=experimental_fgd&disp=1&cd=f4&vs=c1j0l0u0&d=l
 
-右上のコントロールから、表示する地図を切り替えることができます。
 
 # 提供の位置づけ
 国土地理院ベクトルタイル提供実験におけるデータの提供の位置づけは次のとおりです。
