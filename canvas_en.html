@@ -374,7 +374,7 @@ stylejs.options,stylejs.geojsonOptions);
 var std = L.tileLayer(
 'http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
 {attribution: "GSI Tiles (standard map)", 
-maxNativeZoom: 17, maxZoom: 17, opacity:1});
+maxNativeZoom: 18, maxZoom: 18, opacity:1});
 var ort = L.tileLayer(
 'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg',
 {attribution: "GSI Tiles (orthophoto)", 
@@ -389,7 +389,7 @@ var GSI = {GLOBALS : {}};
 
 GSI.GLOBALS.map = L.map('mapdiv', {
   center: [35.705698,139.957527], zoom: 17,minZoom: 2, maxZoom: 18,
-  layers: [fgdlayer, std]});
+  layers: [fgdlayer, blank]});
 
 L.control.scale({imperial: false}).addTo(GSI.GLOBALS.map);
 
