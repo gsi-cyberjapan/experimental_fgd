@@ -17,10 +17,12 @@ html, body, #mapdiv {height: 100%; width: 100%;}
 <div id="mapdiv">
 <script>
 
+var tileSize_default = 512;
+
 function tilexy(tilePoint,zoom,dz,canvas_dx,canvas_dy,tlng,tlat){
-      var tileSize=256;
+      var tileSize=tileSize_default;
       var tz = zoom;
-      if(dz>0){tileSize = 256*Math.pow(2, dz);tz = tz -dz;}
+      if(dz>0){tileSize = tileSize_default*Math.pow(2, dz);tz = tz -dz;}
       var initialResolution = 2 * Math.PI / tileSize;
       var Resolution = initialResolution / (Math.pow(2, tz));
       var originShift = 2 * Math.PI / 2.0;
@@ -98,19 +100,19 @@ function featsearch(layerdata,tilePoint,zoom,dz,canvas,canvas_dx,canvas_dy,urlid
 function fgd_style(feature){
      switch (feature.properties['class']){
        case 'Cstline':
-        return {setLineDash:[],strokeStyle:"#00f",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#00f",lineWidth:2,globalAlpha:1,lineCap:"butt"};
        case 'Cntr':
         return {setLineDash:[],strokeStyle:"#ca5",lineWidth:2,globalAlpha:0,lineCap:"butt"};
        case 'WStrL':
-        return {setLineDash:[],strokeStyle:"#77f",lineWidth:1,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#77f",lineWidth:1,globalAlpha:1,lineCap:"butt"};
        case 'WL':
-        return {setLineDash:[],strokeStyle:"#00f",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#00f",lineWidth:2,globalAlpha:1,lineCap:"butt"};
        case 'RdEdg':
-        return {setLineDash:[],strokeStyle:"#777",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#777",lineWidth:2,globalAlpha:1,lineCap:"butt"};
        case 'RdCompt':
-        return {setLineDash:[],strokeStyle:"#aaa",lineWidth:1,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#aaa",lineWidth:1,globalAlpha:1,lineCap:"butt"};
        case 'RailCL':
-        return {setLineDash:[],strokeStyle:"#7f7",lineWidth:2,globalAlpha:0.5,lineCap:"butt"};
+        return {setLineDash:[],strokeStyle:"#7f7",lineWidth:2,globalAlpha:1,lineCap:"butt"};
        case 'BldL':
         if(feature.properties['type']=='堅ろう建物'){
           return {setLineDash:[],strokeStyle:"#f72",lineWidth:2,globalAlpha:0,lineCap:"butt"};
@@ -136,12 +138,14 @@ fgdlayer.drawTile = function(canvas, tilePoint, zoom) {
 	var dz = zoom - this.options.maxNativeZoom;
 	var canvas_dx = 20;
 	var canvas_dy = 20;
+	canvas.style.width = "276px";
+	canvas.style.height = "276px";
 	if(dz>0){
-	 canvas.width=256*Math.pow(2, dz) + canvas_dx *2;
-	 canvas.height=256*Math.pow(2, dz) + canvas_dy *2;
+	 canvas.width=tileSize_default*Math.pow(2, dz) + canvas_dx *2;
+	 canvas.height=tileSize_default*Math.pow(2, dz) + canvas_dy *2;
 	}else{
-	 canvas.width=256 + canvas_dx *2;
-	 canvas.height=256 + canvas_dy *2;
+	 canvas.width=tileSize_default + canvas_dx *2;
+	 canvas.height=tileSize_default + canvas_dy *2;
 	}
 	var ctx = canvas.getContext('2d');
 	ctx.fillStyle = '#fff';
@@ -156,8 +160,8 @@ fgdlayer.drawTile = function(canvas, tilePoint, zoom) {
 		xhr.onload = function() {
 			if(flag==0){
 			flag=1;
-			canvas.style.left = canvas.offsetLeft - canvas_dx + 'px';
-			canvas.style.top = canvas.offsetTop - canvas_dy + 'px';
+			canvas.style.left = canvas.offsetLeft - canvas_dx/2 + 'px';
+			canvas.style.top = canvas.offsetTop - canvas_dy/2 + 'px';
 			}
 			var cl_json = JSON.parse(this.responseText);
 			featsearch(cl_json.features,tilePoint,zoom,dz,canvas,canvas_dx,canvas_dy,urlid);
