@@ -40,7 +40,7 @@ var std = L.tileLayer(
 {attribution: "地理院タイル（標準地図）", 
 maxNativeZoom: 18, maxZoom: 18, opacity:1});
 var ort = L.tileLayer(
-'http://cyberjapandata.gsi.go.jp/xyz/djbmo/{z}/{x}/{y}.jpg',
+'http://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
 {attribution: "地理院タイル（オルソ）", 
 maxNativeZoom: 17, maxZoom: 18, opacity:0.7});
 
@@ -60,7 +60,6 @@ GSI.GLOBALS.map = L.map('mapdiv', {
 
 L.control.scale({imperial: false}).addTo(GSI.GLOBALS.map);
 
-//var baseLayers = {"地理院タイル（標準地図）": std,"地理院タイル（オルソ）": ort,"地理院タイル（白地図）": blank};
 var baseLayers ={};
 var overlays = {"地理院タイル（標準地図）": std,"地理院タイル（オルソ）": ort,"地理院タイル（白地図）": blank,'fgd': fgdlayer};
 
