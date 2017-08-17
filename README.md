@@ -10,9 +10,9 @@ experimental_fgd
 データの仕様は次のとおりです。
 
 ## 基盤地図情報（基本項目）
-テンプレート URL: http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson
+テンプレート URL: https://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson
 
-サンプル：http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/18/233094/102736.geojson
+サンプル：https://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/18/233094/102736.geojson
 
 # データ内容の詳細について
 データの内容の詳細については、基盤地図情報 ダウンロードデータ　ファイル仕様書4.0　(1,138KB　PDFファイル)（http://fgd.gsi.go.jp/otherdata/spec/2014/FGD_DLFileSpecV4.0.pdf ）等をご覧ください。
@@ -20,11 +20,11 @@ experimental_fgd
 # デモサイトについて
 デモサイトを次の場所に用意しております。
 - 本リポジトリ
-http://gsi-cyberjapan.github.io/experimental_fgd/
+https://gsi-cyberjapan.github.io/experimental_fgd/
 - 本リポジトリ（Canvas）
-http://gsi-cyberjapan.github.io/experimental_fgd/canvas.html
+https://gsi-cyberjapan.github.io/experimental_fgd/canvas.html
 - 地理院地図
-http://maps.gsi.go.jp/?ll=35.672993,139.769182&z=18&base=blank&ls=experimental_fgd&disp=1&cd=f4&vs=c1j0l0u0&d=l
+https://maps.gsi.go.jp/#18/35.672993/139.769182/&base=blank&ls=blank%7Cexperimental_fgd&disp=11&lcd=experimental_fgd&vs=c1j0l0u0t0z0r0f0&d=l
 
 
 # 提供の位置づけ
